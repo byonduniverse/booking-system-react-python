@@ -8,6 +8,9 @@ class TimePeriod:
     __slots__ = ("start", "end")
 
     def __init__(self, start: datetime.datetime, end: datetime.datetime) -> None:
+        if start > end:
+            raise ValueError("Start time must be before end time")
+
         self.start = start
         self.end = end
     
@@ -22,11 +25,11 @@ class Booking:
 
     __slots__ = ("name", "phone_number", "time_start", "time_end")
 
-    def __init__(self, name: str, phone_number: str, time_start: datetime.datetime, time_end: datetime.datetime) -> None:
+    def __init__(self, name: str, phone_number: str, period: TimePeriod) -> None:
         self.name = name
         self.phone_number = phone_number
-        self.time_start = time_start
-        self.time_end = time_end
+        self.time_start = period.start
+        self.time_end = period.end
     
     def __str__(self) -> str:
         return f"<{self.name} ({self.phone_number}) {self.time_start} - {self.time_end}>"
@@ -69,7 +72,6 @@ class Day:
 
         if len(self.bookings) == 0 or self.bookings[0].time_start > new_booking.time_end:
             self.bookings.append(new_booking)
-            self.lock.release()
             return
         
         for i in range(len(self.bookings)):
@@ -78,14 +80,16 @@ class Day:
                     or new_booking.time_end <= self.bookings[i+1].time_start):
 
                 self.bookings.insert(i+1, new_booking)
-                self.lock.release()
                 return
         
         raise ValueError(f"Could not insert booking\nBooking: {new_booking}\nSlot: {self}")
 
 
     def __str__(self) -> str:
-        return f"{self.date}: {self.bookings}"
+        string = f"{self.date}:\n"
+        for booking in self.bookings:
+            string += f"\t\t{booking}\n"
+        return string
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -93,11 +97,12 @@ class Day:
 
 class Slot:
 
-    __slots__ = ("days", "lock")
+    __slots__ = ("days", "lock", "id")
 
-    def __init__(self) -> None:
+    def __init__(self, id: int) -> None:
         self.days: Dict[datetime.date, Day] = {}
         self.lock = threading.Lock()
+        self.id = id
     
 
     def clean_days(self) -> None:
@@ -146,9 +151,10 @@ class Slot:
                 
 
     def __str__(self) -> str:
-        string = ""
-        for slot in self.slots:
-            string += f"{slot}\n"
+        string = f"{self.id}:\n"
+        # Add the days in sorted order
+        for day in sorted(list(self.days.values()), key=lambda day: day.date):
+            string += f"\tDay {day}\n"
         return string
     
     def __repr__(self) -> str:
@@ -160,7 +166,7 @@ class BookingManager:
     __slots__ = ("slots")
 
     def __init__(self, slot_number: int) -> None:
-        self.slots: Tuple[Slot] = (Slot(),) * slot_number
+        self.slots: Tuple[Slot] = tuple([Slot(i) for i in range(slot_number)])
     
 
     def clean_slots(self) -> None:
@@ -179,7 +185,7 @@ class BookingManager:
     def __str__(self) -> str:
         string = ""
         for slot in self.slots:
-            string += f"{slot}\n"
+            string += f"Slot {slot}\n"
         return string
     
     def __repr__(self) -> str:
