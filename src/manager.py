@@ -1,5 +1,6 @@
 import datetime
 import threading
+import json
 from typing import Dict, List, Tuple
 
 
@@ -19,6 +20,12 @@ class TimePeriod:
     
     def __repr__(self) -> str:
         return self.__str__()
+    
+    def toJSON(self) -> str:
+        return json.dumps({
+            "start": self.start.isoformat(),
+            "end": self.end.isoformat()
+        })
 
 
 class Booking:
@@ -67,12 +74,12 @@ class Day:
         return already_booked
     
     
-    def insert_booking(self, new_booking: Booking) -> None:
+    def insert_booking(self, new_booking: Booking) -> bool:
         # Use linear search to insert the new booking in the right spot
 
         if len(self.bookings) == 0 or self.bookings[0].time_start > new_booking.time_end:
             self.bookings.append(new_booking)
-            return
+            return True
         
         for i in range(len(self.bookings)):
             if new_booking.time_start >= self.bookings[i].time_end \
@@ -80,9 +87,10 @@ class Day:
                     or new_booking.time_end <= self.bookings[i+1].time_start):
 
                 self.bookings.insert(i+1, new_booking)
-                return
+                return True
         
-        raise ValueError(f"Could not insert booking\nBooking: {new_booking}\nSlot: {self}")
+        print(f"Could not insert booking\nBooking: {new_booking}\nSlot: {self}")
+        return False
 
 
     def __str__(self) -> str:
@@ -133,7 +141,7 @@ class Slot:
             return already_booked
         
 
-    def insert_booking(self, new_booking: Booking) -> None:
+    def insert_booking(self, new_booking: Booking) -> bool:
         with self.lock:
 
             start_date = new_booking.time_start.date()
@@ -146,8 +154,11 @@ class Slot:
                     day = Day(start_date)
                     self.days[start_date] = day
                 
-                day.insert_booking(new_booking)
+                if not day.insert_booking(new_booking):
+                    return False
                 start_date += datetime.timedelta(days=1)
+        
+            return True
                 
 
     def __str__(self) -> str:
@@ -175,11 +186,17 @@ class BookingManager:
 
 
     def get_already_booked(self, slot_index: int, period: TimePeriod) -> Tuple[TimePeriod]:
-        return self.slots[slot_index].get_already_booked(period)
+        try:
+            return self.slots[slot_index].get_already_booked(period)
+        except IndexError:
+            return ()
 
 
-    def insert_booking(self, slot_index: int, new_booking: Booking) -> None:
-        self.slots[slot_index].insert_booking(new_booking)
+    def insert_booking(self, slot_index: int, new_booking: Booking) -> bool:
+        try:
+            return self.slots[slot_index].insert_booking(new_booking)
+        except IndexError:
+            return False
 
 
     def __str__(self) -> str:
