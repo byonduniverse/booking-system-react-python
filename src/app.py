@@ -1,14 +1,23 @@
 import datetime
 from typing import Tuple
-from flask import Flask, current_app, request
+from flask import Flask, current_app, request, render_template
 from flask_restful import Api, Resource
 
 from src.manager import BookingManager, TimePeriod, Booking
 
 
-app = Flask(__name__)
+app = Flask(__name__,
+    static_folder="frontend/public/static",
+    template_folder="frontend/public"
+)
+
 api = Api(app)
-app.booking_manager = BookingManager()
+app.booking_manager = BookingManager(10)
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 
 class AlreadyBookedHours(Resource):
