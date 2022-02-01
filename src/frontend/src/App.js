@@ -1,10 +1,10 @@
-    
+import React from "react";
 
-export default App = () => {
+export default function App() {
     return (
         <div>
-        <h1>Hello World</h1>
+        <h1>This is the app text</h1>
         </div>
     );
-}
+};
 
