@@ -1,0 +1,35 @@
+
+
+.carousel .carousel-item {
+    height: 500px;
+}
+
+.carousel-item img {
+    position: absolute;
+    object-fit:cover;
+    top: 0;
+    left: 0;
+    min-height: 500px;
+}
+
+.carousel-header {
+    color: black;
+    font-style: italic;
+    font-weight: bold;
+    font-family: cursive;
+    font-size: 50px;
+    background-color: rgba(255, 255, 255, 0.15);
+    width: fit-content;
+    margin: auto;
+}
+
+.carousel-p {
+    color: black;
+    font-family: cursive;
+    font-size: 25px;
+    background-color: rgba(255, 255, 255, 0.15);
+    margin: auto;
+    font-weight: bold;
+    width: fit-content;
+}
+
