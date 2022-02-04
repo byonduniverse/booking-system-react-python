@@ -5,7 +5,7 @@ import { Fragment } from "react";
 export default function Navbar() {
     return (
 <Fragment>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light colored-nav">
         <div class="container-fluid">
         <Link class="navbar-brand" to="/">
             <i class="bi bi-yin-yang"></i>
@@ -29,7 +29,12 @@ export default function Navbar() {
                 </Link>
             </li>
             <li class="nav-item">
-                <Link class="nav-link" to="/about">
+                <Link class="nav-link active" aria-current="page" to="/">
+                Book Kebab
+                </Link>
+            </li>
+            <li class="nav-item">
+                <Link class="nav-link active" aria-current="page" to="/about">
                 About Us
                 </Link>
             </li>
