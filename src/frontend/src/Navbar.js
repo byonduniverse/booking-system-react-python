@@ -8,7 +8,7 @@ export default function Navbar() {
     <nav class="navbar navbar-expand-lg navbar-light colored-nav">
         <div class="container-fluid">
         <Link class="navbar-brand" to="/">
-            <i class="bi bi-yin-yang"></i>
+            <img src="assets/kebab.png" width="30" height="30" class="d-inline-block align-top" alt="Kebab Icon" />
         </Link>
         <button
             class="navbar-toggler"

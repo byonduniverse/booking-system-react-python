@@ -8,7 +8,7 @@ export default function Footer() {
     <div class="row">
         <div class="col-sm-12 col-md-6">
         <h6>About</h6>
-        <p class="text-justify">Kebab Lovers is an imaginary company that aims to solve the world's most important problems by exporting high-quality Kebabs to every country. We highly believe that our mission is not only important for the evolution on humanity, but also to address global poverty, hunger, and child slavery. Quaerat provident commodi consectetur veniam similique ad 
+        <p class="text-justify">Kebab Lovers is an imaginary company that aims to solve the world's most important problems by exporting high-quality Kebabs to every country. We highly believe that our mission is not only important for the evolution of humanity, but also to address global poverty, hunger, and child slavery. Quaerat provident commodi consectetur veniam similique ad 
 earum omnis ipsum saepe, voluptas, hic voluptates pariatur est explicabo 
 fugiat, dolorum eligendi quam cupiditate excepturi mollitia maiores labore 
 suscipit quas? Nulla, placeat.</p>

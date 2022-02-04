@@ -49,9 +49,9 @@ sapiente officiis modi at sunt excepturi expedita sint?</p>
       </div>
     </div>
 
-    <div class="row text-center">
+    <div class="row text-center ">
       <div class="col-xl-3 col-sm-6 mb-5">
-        <div class="bg-white rounded shadow-sm py-5 px-4"><img src="assets/kebab_man.png" alt="Kebab Man" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
+        <div class="rounded shadow-sm py-5 px-4 team-member-card"><img src="assets/kebab_man.png" alt="Kebab Man" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
           <h5 class="mb-0">Eldahil Baghdabduhul</h5><span class="small text-uppercase text-muted">CEO - Founder</span>
           <ul class="social mb-0 list-inline mt-3">
             <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
@@ -63,7 +63,7 @@ sapiente officiis modi at sunt excepturi expedita sint?</p>
       </div>
 
       <div class="col-xl-3 col-sm-6 mb-5">
-        <div class="bg-white rounded shadow-sm py-5 px-4"><img src="assets/kebab_man2.png" alt="Kebab Man" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
+        <div class="team-member-card rounded shadow-sm py-5 px-4"><img src="assets/kebab_man2.png" alt="Kebab Man" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
           <h5 class="mb-0">Samahil El Abhadil</h5><span class="small text-uppercase text-muted">Manager - Cofounder</span>
           <ul class="social mb-0 list-inline mt-3">
             <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
@@ -75,7 +75,7 @@ sapiente officiis modi at sunt excepturi expedita sint?</p>
       </div>
 
       <div class="col-xl-3 col-sm-6 mb-5">
-        <div class="bg-white rounded shadow-sm py-5 px-4"><img src="assets/kebab_man3.png" alt="Kebab Man" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
+        <div class="team-member-card rounded shadow-sm py-5 px-4"><img src="assets/kebab_man3.png" alt="Kebab Man" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
           <h5 class="mb-0">Menal Hihashtal</h5><span class="small text-uppercase text-muted">Chef - Cofounder</span>
           <ul class="social mb-0 list-inline mt-3">
             <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
@@ -87,7 +87,7 @@ sapiente officiis modi at sunt excepturi expedita sint?</p>
       </div>
 
       <div class="col-xl-3 col-sm-6 mb-5">
-        <div class="bg-white rounded shadow-sm py-5 px-4"><img src="assets/kebab_man4.png" alt="Kebab Man" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
+        <div class="team-member-card rounded shadow-sm py-5 px-4"><img src="assets/kebab_man4.png" alt="Kebab Man" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm" />
           <h5 class="mb-0">Nahibish Alshetal</h5><span class="small text-uppercase text-muted">Extern - Investor</span>
           <ul class="social mb-0 list-inline mt-3">
             <li class="list-inline-item"><a href="#" class="social-link"><i class="fa fa-facebook-f"></i></a></li>
