@@ -7,8 +7,9 @@ from src.manager import BookingManager, TimePeriod, Booking
 
 
 app = Flask(__name__,
-    static_folder="frontend/build/static",
-    template_folder="frontend/build"
+    static_folder="frontend/build/",
+    template_folder="frontend/build/",
+    static_url_path=""
 )
 
 api = Api(app)
