@@ -19,6 +19,7 @@ suscipit quas? Nulla, placeat.</p>
         <ul class="footer-links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About Us</Link></li>
+            <li><Link to="/bookings">Book Kebab</Link></li>
         </ul>
         </div>
     </div>

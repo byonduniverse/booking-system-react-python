@@ -223,5 +223,38 @@
 }
 
 
+.calendar-date {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+}
 
+
+.calendar-date-box {
+  margin: 10px;
+}
+
+
+.calendar-topbar {
+  background-color: #e7dede;
+  padding: 10px;
+  border: 1px solid rgb(167, 167, 167);
+}
+
+
+.calendar-body {
+  padding: 10px;
+}
+
+
+.calendar-day-cell {
+  background-color: #e7dede;
+  padding: 10px;
+  border: 1px solid rgb(167, 167, 167);
+}
+
+
+.calendar-body-row {
+  width: fit-content;
+}
 

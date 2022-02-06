@@ -4,6 +4,7 @@ import About from "./About";
 import Home from "./Home";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import BookingsPage from "./BookingsPage";
 
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/bookings" element={<BookingsPage />} />
         </Routes>
 
         <Footer />

@@ -29,7 +29,7 @@ export default function Navbar() {
                 </Link>
             </li>
             <li class="nav-item">
-                <Link class="nav-link active" aria-current="page" to="/">
+                <Link class="nav-link active" aria-current="page" to="/bookings">
                 Book Kebab
                 </Link>
             </li>
