@@ -1,4 +1,7 @@
-import focussedDate from './globals';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { incrementMonth, decrementMonth, incrementYear, decrementYear } from './dateSlice';
+
 
 function getLang() {
     if (navigator.languages != undefined)
@@ -7,36 +10,26 @@ function getLang() {
 }
 
 
-function changeMonth(date, quantity) {
-    const newDate = new Date(date);
-    newDate.setMonth(newDate.getMonth() + quantity);
-    return newDate;
-}
-
-
-function changeYear(date, quantity) {
-    const newDate = new Date(date);
-    newDate.setFullYear(newDate.getFullYear() + quantity);
-    return newDate;
-}
-
-
 const locale = getLang();
 
 
 export default function TopBar() {
+
+    const date = useSelector(state => state.date.value);
+    const dispatch = useDispatch();
+
     return (
 <div className="calendar-topbar">
 
     <span className="calendar-date-box">
-        <i class="bi bi-caret-left" onClick={() => focussedDate = changeYear(date, -1)} />
-        <span className="calendar-date">{focussedDate.getFullYear()}</span>
-        <i class="bi bi-caret-right" onClick={() => focussedDate = changeYear(date, 1)} />
+        <i class="bi bi-caret-left" onClick={() => dispatch(decrementYear())} />
+        <span className="calendar-date">{date.getFullYear()}</span>
+        <i class="bi bi-caret-right" onClick={() => dispatch(incrementYear())} />
     </span>
     <span className="calendar-date-box">
-        <i class="bi bi-caret-left" onClick={() => focussedDate = changeMonth(date, -1)} />
-        <span className="calendar-date">{focussedDate.toLocaleString(locale, { month: "short" })}</span>
-        <i class="bi bi-caret-right" onClick={() => focussedDate = changeMonth(date, 1)} />
+        <i class="bi bi-caret-left" onClick={() => dispatch(decrementMonth())} />
+        <span className="calendar-date">{date.toLocaleString(locale, { month: "short" })}</span>
+        <i class="bi bi-caret-right" onClick={() => dispatch(incrementMonth())} />
     </span>
 
 </div>

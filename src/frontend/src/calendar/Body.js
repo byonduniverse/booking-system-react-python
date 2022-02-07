@@ -1,5 +1,6 @@
 import Day from './Day';
-import focussedDate from './globals';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 function daysInMonth(month, year) {
@@ -7,7 +8,10 @@ function daysInMonth(month, year) {
 }
 
 
-export default function CalendarBody(props) {
+export default function CalendarBody() {
+
+    const date = useSelector(state => state.date.value);
+
     return (
 <div className="calendar-body">
 
@@ -22,8 +26,8 @@ export default function CalendarBody(props) {
     </div>
     <div className="calendar-body-row">
         {Array(
-            daysInMonth(focussedDate.getMonth(),
-            focussedDate.getFullYear())-21).fill(0)
+            daysInMonth(date.getMonth(),
+            date.getFullYear())-21).fill(0)
             .map((_, i) => (<Day number={i+22} />), )}
     </div>
 
