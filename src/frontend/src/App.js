@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import BookingsPage from "./BookingsPage";
 import store from "./store";
 import { Provider } from "react-redux";
+import ProductsPage from "./ProductsPage";
 
 
 export default function App() {
@@ -20,6 +21,9 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/bookings" element={<BookingsPage />} />
+            <Route path="/products" element={<ProductsPage />} />
+
+            <Route path="*" element={<Home />} />
         </Routes>
 
         <Footer />

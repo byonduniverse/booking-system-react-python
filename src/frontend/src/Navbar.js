@@ -29,8 +29,13 @@ export default function Navbar() {
                 </Link>
             </li>
             <li class="nav-item">
-                <Link class="nav-link active" aria-current="page" to="/bookings">
+                <Link class="nav-link active" aria-current="page" to="/products">
                 Book Kebab
+                </Link>
+            </li>
+            <li class="nav-item">
+                <Link class="nav-link active" aria-current="page" to="/#">
+                Blog
                 </Link>
             </li>
             <li class="nav-item">

@@ -222,6 +222,9 @@
   background-color: #e7dede;
 }
 
+.product-card {
+  background-color: #e7dede;
+}
 
 .calendar-date {
   font-size: 20px;
@@ -256,5 +259,16 @@
 
 .calendar-body-row {
   width: fit-content;
+}
+
+
+.book-button {
+  background-color: #33353d; /* Green */
+  border: 2px solid #007bb6;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  padding: 10px 15px 10px 15px;
+  margin: auto;
 }
 
