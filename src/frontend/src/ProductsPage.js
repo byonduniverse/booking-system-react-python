@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { Link } from "react-router-dom"
 
 
 export default function ProductsPage() {
@@ -29,7 +30,7 @@ export default function ProductsPage() {
             <div class="card-body product-card">
               <p class="card-text">Lorem ipsum dolor sit.</p>
               <div class="d-flex justify-content-between align-items-center">
-                <button type="button" class="book-button">Book</button>
+                <Link class="book-button" to="/bookings/0">Book</Link>
               </div>
             </div>
           </div>
@@ -41,7 +42,7 @@ export default function ProductsPage() {
             <div class="card-body product-card">
               <p class="card-text">Lorem ipsum dolor sit.</p>
               <div class="d-flex justify-content-between align-items-center">
-              <button type="button" class="book-button">Book</button>
+              <Link class="book-button" to="/bookings/1">Book</Link>
               </div>
             </div>
           </div>
@@ -53,7 +54,7 @@ export default function ProductsPage() {
             <div class="card-body product-card">
               <p class="card-text">Lorem ipsum dolor sit.</p>
               <div class="d-flex justify-content-between align-items-center">
-              <button type="button" class="book-button">Book</button>
+              <Link class="book-button" to="/bookings/2">Book</Link>
               </div>
             </div>
           </div>
@@ -66,29 +67,29 @@ export default function ProductsPage() {
             <div class="card-body product-card">
               <p class="card-text">Lorem ipsum dolor sit.</p>
               <div class="d-flex justify-content-between align-items-center">
-              <button type="button" class="book-button">Book</button>
+              <Link class="book-button" to="/bookings/3">Book</Link>
               </div>
             </div>
           </div>
         </div><div class="col">
           <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+          <img class="card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="assets/Nun_Kebab_Milano.jpg" />
 
             <div class="card-body product-card">
               <p class="card-text">Lorem ipsum dolor sit.</p>
               <div class="d-flex justify-content-between align-items-center">
-              <button type="button" class="book-button">Book</button>
+              <Link class="book-button" to="/bookings/4">Book</Link>
               </div>
             </div>
           </div>
         </div><div class="col">
           <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+          <img class="card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="assets/kebab-giallozafferano.jpeg" />
 
             <div class="card-body product-card">
               <p class="card-text">Lorem ipsum dolor sit.</p>
               <div class="d-flex justify-content-between align-items-center">
-              <button type="button" class="book-button">Book</button>
+              <Link class="book-button" to="/bookings/5">Book</Link>
               </div>
             </div>
           </div>
