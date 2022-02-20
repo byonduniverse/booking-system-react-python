@@ -1,6 +1,7 @@
 import Day from './Day';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 
 function daysInMonth(month, year) {
@@ -8,9 +9,25 @@ function daysInMonth(month, year) {
 }
 
 
+async function getMonthlyBookings(slotID, date) {
+
+    const starPeriod = new Date(date.getFullYear(), date.getMonth());
+    const endPeriod = new Date(date.getFullYear(), daysInMonth(date.getMonth(), date.getFullYear()));
+
+    const response = await fetch(`/slots/${slotID}/already_booked?start_period=${starPeriod}&end_period=${endPeriod}`);
+
+    return response.json().bookings;
+}
+
+
 export default function CalendarBody() {
 
     const date = useSelector(state => state.date.value);
+
+    const { slotID } = useParams();
+
+    const bookings = await getMonthlyBookings(slotID);
+
 
     return (
 <div className="calendar-body">
