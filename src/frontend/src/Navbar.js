@@ -5,13 +5,13 @@ import { Fragment } from "react";
 export default function Navbar() {
     return (
 <Fragment>
-    <nav class="navbar navbar-expand-lg navbar-light colored-nav">
-        <div class="container-fluid">
-        <Link class="navbar-brand" to="/">
-            <img src="assets/kebab.png" width="30" height="30" class="d-inline-block align-top" alt="Kebab Icon" />
+    <nav className="navbar navbar-expand-lg navbar-light colored-nav">
+        <div className="container-fluid">
+        <Link className="navbar-brand" to="/">
+            <img src="assets/kebab.png" width="30" height="30" className="d-inline-block align-top" alt="Kebab Icon" />
         </Link>
         <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNav"
@@ -19,27 +19,27 @@ export default function Navbar() {
             aria-expanded="false"
             aria-label="Toggle navigation"
         >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-            <li class="nav-item">
-                <Link class="nav-link active" aria-current="page" to="/">
+        <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
+            <li className="nav-item">
+                <Link className="nav-link active" aria-current="page" to="/">
                 Home
                 </Link>
             </li>
-            <li class="nav-item">
-                <Link class="nav-link active" aria-current="page" to="/products">
+            <li className="nav-item">
+                <Link className="nav-link active" aria-current="page" to="/products">
                 Book Kebab
                 </Link>
             </li>
-            <li class="nav-item">
-                <Link class="nav-link active" aria-current="page" to="/#">
+            <li className="nav-item">
+                <Link className="nav-link active" aria-current="page" to="/#">
                 Blog
                 </Link>
             </li>
-            <li class="nav-item">
-                <Link class="nav-link active" aria-current="page" to="/about">
+            <li className="nav-item">
+                <Link className="nav-link active" aria-current="page" to="/about">
                 About Us
                 </Link>
             </li>

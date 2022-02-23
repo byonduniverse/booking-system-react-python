@@ -4,7 +4,7 @@ import CalendarBody from "./Body";
 
 export default function Calendar() {
     return (
-<div class="calendar">
+<div className="calendar">
 
     <TopBar />
 

@@ -22,14 +22,14 @@ export default function TopBar() {
 <div className="calendar-topbar">
 
     <span className="calendar-date-box">
-        <i class="bi bi-caret-left" onClick={() => dispatch(decrementYear())} />
+        <i className="bi bi-caret-left" onClick={() => dispatch(decrementYear())} />
         <span className="calendar-date">{date.getFullYear()}</span>
-        <i class="bi bi-caret-right" onClick={() => dispatch(incrementYear())} />
+        <i className="bi bi-caret-right" onClick={() => dispatch(incrementYear())} />
     </span>
     <span className="calendar-date-box">
-        <i class="bi bi-caret-left" onClick={() => dispatch(decrementMonth())} />
+        <i className="bi bi-caret-left" onClick={() => dispatch(decrementMonth())} />
         <span className="calendar-date">{date.toLocaleString(locale, { month: "short" })}</span>
-        <i class="bi bi-caret-right" onClick={() => dispatch(incrementMonth())} />
+        <i className="bi bi-caret-right" onClick={() => dispatch(incrementMonth())} />
     </span>
 
 </div>

@@ -6,6 +6,9 @@ from flask_restful import Api, Resource
 from src.manager import BookingManager, TimePeriod, Booking
 
 
+TIME_FORMAT = "%Y-%m-%dT%H:%M:%S%z"
+
+
 app = Flask(__name__,
     static_folder="frontend/build/",
     template_folder="frontend/build/",
@@ -31,10 +34,11 @@ class AlreadyBookedHours(Resource):
             return {"error": "Missing start_period or end_period in request"}, 400
 
         period = TimePeriod(
-            start=datetime.datetime.strptime(start_period, "%Y-%m-%dT%H:%M:%S"),
-            end=datetime.datetime.strptime(end_period, "%Y-%m-%dT%H:%M:%S")
+            start=datetime.datetime.strptime(start_period, TIME_FORMAT),
+            end=datetime.datetime.strptime(end_period, TIME_FORMAT)
         )
         bookings: Tuple[TimePeriod] = current_app.booking_manager.get_already_booked(slot_index, period)
+        # TODO need to send just json
         return {"bookings": [booking.toJSON() for booking in bookings]}, 200
 
 
@@ -50,8 +54,8 @@ class Book(Resource):
             return {"error": "Missing start_period, end_period, name or phone_number in request"}, 400
 
         period = TimePeriod(
-            start=datetime.datetime.strptime(start_period, "%Y-%m-%dT%H:%M:%S"),
-            end=datetime.datetime.strptime(end_period, "%Y-%m-%dT%H:%M:%S")
+            start=datetime.datetime.strptime(start_period, TIME_FORMAT),
+            end=datetime.datetime.strptime(end_period, TIME_FORMAT)
         )
 
         booking = Booking(name, phone_number, period)
