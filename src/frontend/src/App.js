@@ -22,8 +22,6 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/bookings/:slotID" element={<BookingsPage />} />
             <Route path="/products" element={<ProductsPage />} />
-
-            <Route path="*" element={<Home />} />
         </Routes>
 
         <Footer />

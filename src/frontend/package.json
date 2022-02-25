@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "proxies": [
     {
-      "path": "/",
-      "target": "http://localhost:5000"
+      "path": "/api/",
+      "target": "http://localhost:5000/api/"
     }
   ],
   "private": true,

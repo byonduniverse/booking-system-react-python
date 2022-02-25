@@ -1,7 +1,8 @@
 import datetime
 from typing import Tuple
-from flask import Flask, current_app, request, render_template
+from flask import Flask, current_app, jsonify, request, render_template, Response
 from flask_restful import Api, Resource
+from flask_cors import CORS
 
 from src.manager import BookingManager, TimePeriod, Booking
 
@@ -15,6 +16,7 @@ app = Flask(__name__,
     static_url_path=""
 )
 
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 api = Api(app)
 app.booking_manager = BookingManager(10)
 
@@ -38,8 +40,8 @@ class AlreadyBookedHours(Resource):
             end=datetime.datetime.strptime(end_period, TIME_FORMAT)
         )
         bookings: Tuple[TimePeriod] = current_app.booking_manager.get_already_booked(slot_index, period)
-        # TODO need to send just json
-        return {"bookings": [booking.toJSON() for booking in bookings]}, 200
+
+        return jsonify({"bookings": [booking.toJSON() for booking in bookings]})
 
 
 class Book(Resource):
@@ -66,6 +68,6 @@ class Book(Resource):
         return {"success": False}, 400
 
 
-api.add_resource(AlreadyBookedHours, "/slots/<int:slot_index>/already_booked")
-api.add_resource(Book, "/slots/<int:slot_index>/book")
+api.add_resource(AlreadyBookedHours, "/api/slots/<int:slot_index>/already_booked")
+api.add_resource(Book, "/api/slots/<int:slot_index>/book")
 
