@@ -18,7 +18,7 @@ suscipit quas? Nulla, placeat.</p>
         <h6>Quick Links</h6>
         <ul className="footer-links">
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/bookings">Book Kebab</Link></li>
+            <li><Link to="/products">Book Kebab</Link></li>
             <li><Link to="/#">Blog</Link></li>
             <li><Link to="/about">About Us</Link></li>
         </ul>

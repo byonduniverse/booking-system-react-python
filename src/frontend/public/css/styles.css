@@ -254,16 +254,20 @@
   background-color: #e7dede;
   padding: 10px;
   border: 1px solid rgb(167, 167, 167);
+  width: 100%;
 }
 
 
 .calendar-body-row {
-  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: auto;
 }
 
 
 .book-button {
-  background-color: #33353d; /* Green */
+  background-color: #33353d;
   border: 2px solid #007bb6;
   color: white;
   text-align: center;

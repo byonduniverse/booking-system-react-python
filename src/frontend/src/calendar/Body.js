@@ -1,4 +1,5 @@
-import Day from './Day';
+import DayCell from './Day';
+import DayPlaceholderCell from './DayPlaceholder';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -32,28 +33,34 @@ export default function CalendarBody() {
         getMonthlyBookings(slotID, date);
     }, [date]);
 
+    const lastRowDays = daysInMonth(date.getMonth(), date.getFullYear()) - 28;
+
     return (
 <div className="calendar-body">
 
 
     <div className="calendar-body-row">
-        {Array(7).fill(0).map((_, i) => (<Day dayNumber={i+1} key={i} />), )}
+        {Array(7).fill(0).map((_, i) => (<DayCell dayNumber={i+1} key={i} />), )}
     </div>
     <div className="calendar-body-row">
-        {Array(7).fill(0).map((_, i) => (<Day dayNumber={i+8} key={i} />), )}
+        {Array(7).fill(0).map((_, i) => (<DayCell dayNumber={i+8} key={i} />), )}
     </div>
     <div className="calendar-body-row">
-        {Array(7).fill(0).map((_, i) => (<Day dayNumber={i+15} key={i} />), )}
+        {Array(7).fill(0).map((_, i) => (<DayCell dayNumber={i+15} key={i} />), )}
     </div>
     <div className="calendar-body-row">
-        {Array(7).fill(0).map((_, i) => (<Day dayNumber={i+22} key={i} />), )}
+        {Array(7).fill(0).map((_, i) => (<DayCell dayNumber={i+22} key={i} />), )}
     </div>
+    {lastRowDays > 0 &&
     <div className="calendar-body-row">
-        {Array(
-            daysInMonth(date.getMonth(), date.getFullYear()) - 28)
+        {Array(lastRowDays)
             .fill(0)
-            .map((_, i) => (<Day dayNumber={i+29} key={i} />), )}
+            .map((_, i) => (<DayCell dayNumber={i+29} key={i} />), )}
+        {Array(7 - lastRowDays)
+            .fill(0)
+            .map((_, i) => (<DayPlaceholderCell key={i} />), )}
     </div>
+    }
 
 </div>
     );
