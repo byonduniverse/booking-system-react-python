@@ -1,6 +1,5 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { incrementMonth, decrementMonth, incrementYear, decrementYear } from './dateSlice';
+import { useAppSelector, useAppDispatch } from '../store';
+import { incrementMonth, decrementMonth, incrementYear, decrementYear } from './stores/monthViewSlice';
 
 
 function getLang() {
@@ -15,20 +14,21 @@ const locale = getLang();
 
 export default function TopBar() {
 
-    const date = useSelector(state => state.date.value);
-    const dispatch = useDispatch();
+    const monthViewTime = useAppSelector(state => state.monthView.value);
+    const monthView = new Date(monthViewTime);
+    const dispatch = useAppDispatch();
 
     return (
 <div className="calendar-topbar">
 
     <span className="calendar-date-box">
         <i className="bi bi-caret-left" onClick={() => dispatch(decrementYear())} />
-        <span className="calendar-date">{date.getFullYear()}</span>
+        <span className="calendar-date">{monthView.getFullYear()}</span>
         <i className="bi bi-caret-right" onClick={() => dispatch(incrementYear())} />
     </span>
     <span className="calendar-date-box">
         <i className="bi bi-caret-left" onClick={() => dispatch(decrementMonth())} />
-        <span className="calendar-date">{date.toLocaleString(locale, { month: "short" })}</span>
+        <span className="calendar-date">{monthView.toLocaleString(locale, { month: "short" })}</span>
         <i className="bi bi-caret-right" onClick={() => dispatch(incrementMonth())} />
     </span>
 

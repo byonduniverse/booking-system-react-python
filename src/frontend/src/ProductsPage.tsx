@@ -25,7 +25,7 @@ export default function ProductsPage() {
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div className="col">
           <div className="card shadow-sm">
-            <img className="card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="assets/kebab.jpg" />
+            <img className="card-img-top" width="100%" height="225" src="assets/kebab.jpg" />
 
             <div className="card-body product-card">
               <p className="card-text">Lorem ipsum dolor sit.</p>
@@ -37,7 +37,7 @@ export default function ProductsPage() {
         </div>
         <div className="col">
           <div className="card shadow-sm">
-          <img className="card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="assets/kebab2.jpg" />
+          <img className="card-img-top" width="100%" height="225" src="assets/kebab2.jpg" />
 
             <div className="card-body product-card">
               <p className="card-text">Lorem ipsum dolor sit.</p>
@@ -49,7 +49,7 @@ export default function ProductsPage() {
         </div>
         <div className="col">
           <div className="card shadow-sm">
-          <img className="card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="assets/kebab3.jpg" />
+          <img className="card-img-top" width="100%" height="225" src="assets/kebab3.jpg" />
 
             <div className="card-body product-card">
               <p className="card-text">Lorem ipsum dolor sit.</p>
@@ -62,7 +62,7 @@ export default function ProductsPage() {
 
         <div className="col">
           <div className="card shadow-sm">
-          <img className="card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="assets/kebab-pita.jpg" />
+          <img className="card-img-top" width="100%" height="225" src="assets/kebab-pita.jpg" />
 
             <div className="card-body product-card">
               <p className="card-text">Lorem ipsum dolor sit.</p>
@@ -73,7 +73,7 @@ export default function ProductsPage() {
           </div>
         </div><div className="col">
           <div className="card shadow-sm">
-          <img className="card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="assets/Nun_Kebab_Milano.jpg" />
+          <img className="card-img-top" width="100%" height="225" src="assets/Nun_Kebab_Milano.jpg" />
 
             <div className="card-body product-card">
               <p className="card-text">Lorem ipsum dolor sit.</p>
@@ -84,7 +84,7 @@ export default function ProductsPage() {
           </div>
         </div><div className="col">
           <div className="card shadow-sm">
-          <img className="card-img-top" width="100%" height="225" preserveAspectRatio="xMidYMid slice" focusable="false" src="assets/kebab-giallozafferano.jpeg" />
+          <img className="card-img-top" width="100%" height="225" src="assets/kebab-giallozafferano.jpeg" />
 
             <div className="card-body product-card">
               <p className="card-text">Lorem ipsum dolor sit.</p>

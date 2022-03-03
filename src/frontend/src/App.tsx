@@ -5,7 +5,7 @@ import Home from "./Home";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import BookingsPage from "./BookingsPage";
-import store from "./store";
+import { store } from "./store";
 import { Provider } from "react-redux";
 import ProductsPage from "./ProductsPage";
 
