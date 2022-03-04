@@ -1,16 +1,20 @@
 import TopBar from "./TopBar";
 import CalendarBody from "./Body";
+import BookingPanel from "./BookingPanel";
+import { Fragment } from "react";
 
 
 export default function Calendar() {
     return (
-<div className="calendar">
+<Fragment>
 
-    <TopBar />
+        <div className="calendar">
+            <TopBar />
+            <CalendarBody />
+        </div>
+        <BookingPanel />
 
-    <CalendarBody />
-
-</div>
+</Fragment>
     );
 };
 

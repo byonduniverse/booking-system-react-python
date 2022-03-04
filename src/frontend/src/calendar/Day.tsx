@@ -3,7 +3,7 @@ import { setFocussedDate, setFocussedDayCell } from './stores/focussedDateSlice'
 import { useRef } from 'react';
 
 
-function selectDayCell(newElementRef: React.RefObject<HTMLElement>, dispatch: (_: any) => void, focussedElementRef: React.RefObject<HTMLElement> | null, cellDate: Date) {
+function selectDayCell(newElementRef: React.RefObject<HTMLElement>, dispatch: (_: any) => void, focussedElementRef: React.RefObject<HTMLElement> | null, newCellDate: Date) {
 
     const newElement = newElementRef.current;
     if (!newElement) {
@@ -23,7 +23,7 @@ function selectDayCell(newElementRef: React.RefObject<HTMLElement>, dispatch: (_
                 deselectDayCell(focussedElementRef.current);   
             }
 
-            dispatch(setFocussedDate(cellDate.getTime()));
+            dispatch(setFocussedDate(newCellDate.getTime()));
             dispatch(setFocussedDayCell(newElementRef));
 
             newElement.classList.add('calendar-day-cell-selected');
@@ -31,14 +31,14 @@ function selectDayCell(newElementRef: React.RefObject<HTMLElement>, dispatch: (_
     }
 }
 
-function deselectDayCell(element: HTMLElement) {
+export function deselectDayCell(element: HTMLElement) {
     element.classList.remove('calendar-day-cell-selected');
 }
 
 
 export default function DayCell({ monthView, dayNumber }: { monthView: Date, dayNumber: number }) {
 
-    const { focussedDate, focussedDayCellRef } = useAppSelector(state => state.focussedDate);
+    const { focussedDayCellRef } = useAppSelector(state => state.focussedDate);
     const dispatch = useAppDispatch();
 
     const currentDate = new Date();
@@ -51,7 +51,7 @@ export default function DayCell({ monthView, dayNumber }: { monthView: Date, day
     const elementRef = useRef<HTMLElement>(null);
 
     return (
-<span ref={elementRef} className="calendar-day-cell" onClick={(event) => selectDayCell(elementRef, dispatch, focussedDayCellRef, cellDate)}>
+<span ref={elementRef} className="calendar-day-cell" onClick={() => selectDayCell(elementRef, dispatch, focussedDayCellRef, cellDate)}>
 
     <span className={"calendar-day-cell-number" + (isToday ? " current-day-number" : "")}>{dayNumber}</span>
 
