@@ -1,16 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, getDefaultMiddleware, PayloadAction } from '@reduxjs/toolkit';
+import { RefObject } from 'react';
 import type { RootState } from '../../store';
 
 
 interface FocussedDateState {
-    date: number | null,
-    dayCellId: string
+    focussedDate: number | null,
+    focussedDayCellRef: RefObject<HTMLElement> | null,
 }
 
 
 const initialState: FocussedDateState = {
-    date: null,
-    dayCellId: ''
+    focussedDate: null,
+    focussedDayCellRef: null
 };
 
 
@@ -19,10 +20,10 @@ export const focussedDateSlice = createSlice({
     initialState,
     reducers: {
         setFocussedDate: (state, action: PayloadAction<number | null>) => {
-            state.date = (typeof action.payload === "number") ? action.payload : null;
+            state.focussedDate = action.payload;
         },
-        setFocussedDayCell: (state, action: PayloadAction<string>) => {
-            state.dayCellId = action.payload;
+        setFocussedDayCell: (state, action: PayloadAction<RefObject<any> | null>) => {
+            state.focussedDayCellRef = action.payload;
         }
     }
 });

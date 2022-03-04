@@ -9,6 +9,12 @@ export const store = configureStore({
         monthView: monthViewReducer,
         focussedDate: focussedDateReducer
     },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: {
+            ignoredActions: ['focussedDate/setFocussedDayCell'],
+            ignoredPaths: ['focussedDate.focussedDayCellRef']
+        }
+    })
 });
 
 

@@ -3,43 +3,42 @@ import { setFocussedDate, setFocussedDayCell } from './stores/focussedDateSlice'
 import { useRef } from 'react';
 
 
-function selectDay(element: HTMLElement | null, dispatch: (_: any) => void, focussedElementId: string, cellDate: Date) {
-    
-    if (!element) {
+function selectDayCell(newElementRef: React.RefObject<HTMLElement>, dispatch: (_: any) => void, focussedElementRef: React.RefObject<HTMLElement> | null, cellDate: Date) {
+
+    const newElement = newElementRef.current;
+    if (!newElement) {
         return;
     }
 
-    if (element.classList.contains('calendar-day-cell')) {
+    if (newElement.classList.contains('calendar-day-cell')) {
 
-        if (element.classList.contains('calendar-day-cell-selected')) {
-            deselectDay(element);
+        if (newElement.classList.contains('calendar-day-cell-selected')) {
+            deselectDayCell(newElement);
             dispatch(setFocussedDate(null));
-            dispatch(setFocussedDayCell(''));
+            dispatch(setFocussedDayCell(null));
 
         } else {
 
-            const focussedElement = document.getElementById(focussedElementId);
-            console.log(element.id);
-            if (focussedElement) {
-                deselectDay(focussedElement);
+            if (focussedElementRef && focussedElementRef.current) {
+                deselectDayCell(focussedElementRef.current);   
             }
 
             dispatch(setFocussedDate(cellDate.getTime()));
-            dispatch(setFocussedDayCell(element.id));
+            dispatch(setFocussedDayCell(newElementRef));
 
-            element.classList.add('calendar-day-cell-selected');
+            newElement.classList.add('calendar-day-cell-selected');
         }
     }
 }
 
-function deselectDay(element: HTMLElement) {
+function deselectDayCell(element: HTMLElement) {
     element.classList.remove('calendar-day-cell-selected');
 }
 
 
 export default function DayCell({ monthView, dayNumber }: { monthView: Date, dayNumber: number }) {
 
-    const { date, dayCellId } = useAppSelector(state => state.focussedDate);
+    const { focussedDate, focussedDayCellRef } = useAppSelector(state => state.focussedDate);
     const dispatch = useAppDispatch();
 
     const currentDate = new Date();
@@ -52,7 +51,7 @@ export default function DayCell({ monthView, dayNumber }: { monthView: Date, day
     const elementRef = useRef<HTMLElement>(null);
 
     return (
-<span ref={elementRef} className="calendar-day-cell" onClick={(event) => selectDay(elementRef.current, dispatch, dayCellId, cellDate)}>
+<span ref={elementRef} className="calendar-day-cell" onClick={(event) => selectDayCell(elementRef, dispatch, focussedDayCellRef, cellDate)}>
 
     <span className={"calendar-day-cell-number" + (isToday ? " current-day-number" : "")}>{dayNumber}</span>
 
