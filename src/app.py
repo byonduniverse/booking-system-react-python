@@ -68,6 +68,14 @@ class Book(Resource):
         return {"success": False}, 400
 
 
+class IsValidSlot(Resource):
+
+    def get(self, slot_index: int):
+        is_valid: bool = current_app.booking_manager.is_valid_slot(slot_index)
+        return {"is_valid": is_valid}, 200
+
+
 api.add_resource(AlreadyBookedHours, "/api/slots/<int:slot_index>/already_booked")
 api.add_resource(Book, "/api/slots/<int:slot_index>/book")
+api.add_resource(IsValidSlot, "/api/slots/<int:slot_index>/is_valid")
 

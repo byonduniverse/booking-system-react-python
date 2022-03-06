@@ -4,16 +4,6 @@ import { unfocusDate } from './stores/focussedDateSlice';
 import { deselectDayCell } from './Day';
 
 
-function getLang() {
-    if (navigator.languages != undefined)
-        return navigator.languages[0];
-    return navigator.language;
-}
-
-
-const locale = getLang();
-
-
 function changeMonthView(dispatch: (_: any) => void, action: () => void, focussedDayCellRef: React.RefObject<HTMLElement> | null) {
     if (focussedDayCellRef && focussedDayCellRef.current) {
         deselectDayCell(focussedDayCellRef.current);
@@ -27,8 +17,12 @@ export default function TopBar() {
 
     const monthViewTime = useAppSelector(state => state.monthView.value);
     const monthView = new Date(monthViewTime);
+
     const { focussedDayCellRef } = useAppSelector(state => state.focussedDate);
+   
     const dispatch = useAppDispatch();
+
+    const locale = useAppSelector(state => state.locale.value);
 
     return (
 <div className="calendar-topbar">

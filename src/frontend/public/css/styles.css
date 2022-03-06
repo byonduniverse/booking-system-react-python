@@ -226,13 +226,11 @@
   background-color: #e7dede;
 }
 
-.calendar {
-  display: inline-block;
-}
 
 .booking-panel {
-  display: inline-block;
-  width: fit-content;
+  background-color: #e7dede;
+  padding: 20px;
+  margin: 20px;
 }
 
 .calendar-date {

@@ -180,6 +180,10 @@ class BookingManager:
         self.slots: Tuple[Slot] = tuple([Slot(i) for i in range(slot_number)])
     
 
+    def is_valid_slot(self, slot_number: int) -> bool:
+        return 0 <= slot_number < len(self.slots)
+    
+
     def clean_slots(self) -> None:
         for slot in self.slots:
             slot.clean_days()

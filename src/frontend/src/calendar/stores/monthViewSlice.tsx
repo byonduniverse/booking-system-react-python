@@ -4,7 +4,7 @@ import type { RootState } from '../../store';
 
 interface MonthViewState {
     value: number
-}
+};
 
 
 const initialState: MonthViewState = {
