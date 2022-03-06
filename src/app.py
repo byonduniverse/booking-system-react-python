@@ -5,6 +5,7 @@ from flask_restful import Api, Resource
 from flask_cors import CORS
 
 from src.manager import BookingManager, TimePeriod, Booking
+from src.database import Database
 
 
 TIME_FORMAT = "%Y-%m-%dT%H:%M:%S%z"
@@ -19,6 +20,8 @@ app = Flask(__name__,
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 api = Api(app)
 app.booking_manager = BookingManager(10)
+
+Database.init_database()
 
 
 @app.route("/")

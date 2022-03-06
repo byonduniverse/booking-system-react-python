@@ -1,187 +1,87 @@
 import datetime
-import threading
-import json
-from typing import Dict, List, Tuple
-
-
-class TimePeriod:
-
-    __slots__ = ("start", "end")
-
-    def __init__(self, start: datetime.datetime, end: datetime.datetime) -> None:
-        if start > end:
-            raise ValueError("Start time must be before end time")
-
-        self.start = start
-        self.end = end
-    
-    def __str__(self) -> str:
-        return f"{self.start} - {self.end}"
-    
-    def __repr__(self) -> str:
-        return self.__str__()
-    
-    def toJSON(self) -> str:
-        return json.dumps({
-            "start": self.start.isoformat(),
-            "end": self.end.isoformat()
-        })
-
-
-class Booking:
-
-    __slots__ = ("name", "phone_number", "time_start", "time_end")
-
-    def __init__(self, name: str, phone_number: str, period: TimePeriod) -> None:
-        self.name = name
-        self.phone_number = phone_number
-        self.time_start = period.start
-        self.time_end = period.end
-    
-    def __str__(self) -> str:
-        return f"<{self.name} ({self.phone_number}) {self.time_start} - {self.time_end}>"
-
-    def __repr__(self) -> str:
-        return self.__str__()
+from typing import Dict, Tuple, NewType
+from .time_period import TimePeriod
+from .booking import Booking
+from .database import Database
 
 
 class Day:
-
-    __slots__ = ("date", "bookings")
-
-    def __init__(self, date: datetime.date) -> None:
+    
+    def __init__(self, date: datetime.date, slot_id: int) -> None:
         self.date = date
-        self.bookings: List[Booking] = []
+        self.slot_id = slot_id
+        self.bookings = []
+        self.is_updated = False
+
     
-
-    def get_already_booked(self, period: TimePeriod) -> List[TimePeriod]:
-        already_booked: List[TimePeriod] = []
-
-        for i in range(len(self.bookings)):
-            # Continue until the start of the time period
-            if self.bookings[i].time_end < period.start:
-                continue
-            
-            # Add the booked hours in the period to the list 
-            for booking in self.bookings[i:]:
-                if booking.time_start < period.end:
-                    already_booked.append(TimePeriod(booking.time_start, booking.time_end))
-                else:
-                    break
-
-            break
+    def get_bookings(self) -> Tuple[Booking]:
+        if self.is_updated:
+            return tuple(self.bookings)
         
-        return already_booked
-    
-    
-    def insert_booking(self, new_booking: Booking) -> bool:
-        # Use linear search to insert the new booking in the right spot
-
-        if len(self.bookings) == 0 or self.bookings[0].time_start > new_booking.time_end:
-            self.bookings.append(new_booking)
-            return True
-        
-        for i in range(len(self.bookings)):
-            if new_booking.time_start >= self.bookings[i].time_end \
-                and (i+1 == len(self.bookings) \
-                    or new_booking.time_end <= self.bookings[i+1].time_start):
-
-                self.bookings.insert(i+1, new_booking)
-                return True
-        
-        print(f"Could not insert booking\nBooking: {new_booking}\nSlot: {self}")
-        return False
+        self.bookings = Database.get_daily_bookings(self.slot_id, self.date)
+        self.is_updated = True
+        return tuple(self.bookings)
 
 
-    def __str__(self) -> str:
-        string = f"{self.date}:\n"
-        for booking in self.bookings:
-            string += f"\t\t{booking}\n"
-        return string
-
-    def __repr__(self) -> str:
-        return self.__str__()
+Month = NewType("Month", Dict[int, Day])
+Year = NewType("Year", Dict[int, Month])
 
 
 class Slot:
 
-    __slots__ = ("days", "lock", "id")
+    __slots__ = ("id", "years")
 
     def __init__(self, id: int) -> None:
-        self.days: Dict[datetime.date, Day] = {}
-        self.lock = threading.Lock()
         self.id = id
+        self.years: Dict[int, Year] = []
+
+    
+    def get_daily_bookings(self, date: datetime.date) -> Tuple[Booking]:
+        year = self.years.get(date.year)
+        if year is None:
+            year = self.years[date.year] = {}
+        
+        month = year.get(date.month)
+        if month is None:
+            month = year[date.month] = {}
+
+        day = month.get(date.day)
+        if day is None:
+            day = month[date.day] = Day(date, self.id)
+
+        return tuple(day.get_bookings())
     
 
-    def clean_days(self) -> None:
-        # Remove past days
-        today = datetime.date.today()
-        for date in list(self.days.keys()):
-            if date < today:
-                del self.days[date]
-    
+    def insert_booking(self, booking: Booking) -> None:
+        # TODO handle bookings that span across multiple days/months/years ??? or don't allow that ???
+        year = self.years.get(booking.time_start.year)
+        if year is None:
+            year = self.years[booking.time_start.year] = {}
+        
+        month = year.get(booking.time_start.month)
+        if month is None:
+            month = year[booking.time_start.month] = {}
 
-    def get_already_booked(self, period: TimePeriod) -> List[TimePeriod]:
-        with self.lock:
+        day = month.get(booking.time_start.day)
+        if day is None:
+            day = month[booking.time_start.day] = Day(booking.time_start.date(), self.id)
 
-            already_booked: List[TimePeriod] = []
-            date = period.start.date()
-            date_end = period.end.date()
-
-            # Iterate over all days in the period, including the last one
-            while date <= date_end:
-                day = self.days.get(date)
-                if day is None:
-                    date += datetime.timedelta(days=1)
-                    continue
-                
-                already_booked += day.get_already_booked(period)
-                date += datetime.timedelta(days=1)
-
-            return already_booked
+        day.bookings.append(booking)
+        day.is_updated = False
         
 
-    def insert_booking(self, new_booking: Booking) -> bool:
-        with self.lock:
-
-            start_date = new_booking.time_start.date()
-            end_date = new_booking.time_end.date()
-
-            # Iterate over all days in the period, including the last one
-            while start_date <= end_date:
-                day = self.days.get(start_date)
-                if day is None:
-                    day = Day(start_date)
-                    self.days[start_date] = day
-                
-                if not day.insert_booking(new_booking):
-                    return False
-                start_date += datetime.timedelta(days=1)
-        
-            return True
-                
-
-    def __str__(self) -> str:
-        string = f"{self.id}:\n"
-        # Add the days in sorted order
-        for day in sorted(list(self.days.values()), key=lambda day: day.date):
-            string += f"\tDay {day}\n"
-        return string
-    
-    def __repr__(self) -> str:
-        return self.__str__()
 
 
 class BookingManager:
 
     __slots__ = ("slots")
 
-    def __init__(self, slot_number: int) -> None:
-        self.slots: Tuple[Slot] = tuple([Slot(i) for i in range(slot_number)])
+    def __init__(self, slot_id: int) -> None:
+        self.slots: Tuple[Slot] = tuple([Slot(i) for i in range(slot_id)])
     
 
-    def is_valid_slot(self, slot_number: int) -> bool:
-        return 0 <= slot_number < len(self.slots)
+    def is_valid_slot(self, slot_id: int) -> bool:
+        return 0 <= slot_id < len(self.slots)
     
 
     def clean_slots(self) -> None:
@@ -189,16 +89,16 @@ class BookingManager:
             slot.clean_days()
 
 
-    def get_already_booked(self, slot_index: int, period: TimePeriod) -> Tuple[TimePeriod]:
+    def get_already_booked(self, slot_id: int, period: TimePeriod) -> Tuple[TimePeriod]:
         try:
-            return self.slots[slot_index].get_already_booked(period)
+            return self.slots[slot_id].get_daily_bookings(period)
         except IndexError:
             return ()
 
 
-    def insert_booking(self, slot_index: int, new_booking: Booking) -> bool:
+    def insert_booking(self, slot_id: int, new_booking: Booking) -> bool:
         try:
-            return self.slots[slot_index].insert_booking(new_booking)
+            return self.slots[slot_id].insert_booking(new_booking)
         except IndexError:
             return False
 
