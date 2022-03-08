@@ -1,10 +1,9 @@
 import datetime
-from typing import Tuple
-from flask import Flask, current_app, jsonify, request, render_template, Response
+from flask import Flask, current_app, jsonify, request, render_template
 from flask_restful import Api, Resource
 from flask_cors import CORS
 
-from src.manager import BookingManager, TimePeriod, Booking
+from src.manager import BookingManager, Booking, BookedYears
 from src.database import Database
 
 
@@ -20,6 +19,7 @@ app = Flask(__name__,
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 api = Api(app)
 app.booking_manager = BookingManager(10)
+
 
 Database.init_database()
 
@@ -38,13 +38,13 @@ class AlreadyBookedHours(Resource):
         if start_period is None or end_period is None:
             return {"error": "Missing start_period or end_period in request"}, 400
 
-        period = TimePeriod(
-            start=datetime.datetime.strptime(start_period, TIME_FORMAT),
-            end=datetime.datetime.strptime(end_period, TIME_FORMAT)
+        booked_years: BookedYears = current_app.booking_manager.get_already_booked(
+            slot_index,
+            datetime.datetime.strptime(start_period, TIME_FORMAT),
+            datetime.datetime.strptime(end_period, TIME_FORMAT)
         )
-        bookings: Tuple[TimePeriod] = current_app.booking_manager.get_already_booked(slot_index, period)
 
-        return jsonify({"bookings": [booking.toJSON() for booking in bookings]})
+        return jsonify({"bookings": booked_years})
 
 
 class Book(Resource):
@@ -56,14 +56,14 @@ class Book(Resource):
         phone_number: str = request.args.get("phone_number")
 
         if None in (start_period, end_period, name, phone_number):
-            return {"error": "Missing start_period, end_period, name or phone_number in request"}, 400
-
-        period = TimePeriod(
-            start=datetime.datetime.strptime(start_period, TIME_FORMAT),
-            end=datetime.datetime.strptime(end_period, TIME_FORMAT)
+            return {"error": "Missing start_period, end_period, name or phone_number in request"}, 400        
+        
+        booking = Booking(
+            name,
+            phone_number,
+            datetime.datetime.strptime(start_period, TIME_FORMAT),
+            datetime.datetime.strptime(end_period, TIME_FORMAT)
         )
-
-        booking = Booking(name, phone_number, period)
 
         success: bool = current_app.booking_manager.insert_booking(slot_index, booking)
         if success:
