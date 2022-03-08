@@ -115,21 +115,29 @@ class BookingManager:
         booked_years: BookedYears = {}
 
         # Check for bookings on each day
-        for i in range(time_start.day, end_time.day + 1):
-            day = time_start.replace(day=i)
+        date = time_start.date()        
+        while date <= end_time.date():
+            
+            daily_bookings = self.slots[slot_id].get_daily_bookings(date)
+            # Discard empty days
+            if len(daily_bookings) == 0:
+                date += datetime.timedelta(days=1)
+                continue
 
             # Create a new year if it doesn't exist
-            booked_months: BookedMonths = booked_years.get(day.year)
+            booked_months: BookedMonths = booked_years.get(date.year)
             if booked_months is None:
-                booked_months = booked_years[day.year] = {}
+                booked_months = booked_years[date.year] = {}
             
             # Create a new month if it doesn't exist
-            booked_days: BookedDays = booked_months.get(day.month)
+            booked_days: BookedDays = booked_months.get(date.month)
             if booked_days is None:
-                booked_days = booked_months[day.month] = {}
+                booked_days = booked_months[date.month] = {}
             
             # Finally add the daily bookings to the structure
-            booked_days[day.day] = self.slots[slot_id].get_daily_bookings(day)
+            booked_days[date.day] = daily_bookings
+
+            date += datetime.timedelta(days=1)
 
         return booked_years
         

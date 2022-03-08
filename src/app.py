@@ -38,10 +38,20 @@ class AlreadyBookedHours(Resource):
         if start_period is None or end_period is None:
             return {"error": "Missing start_period or end_period in request"}, 400
 
+        # Validate the start_period and end_period and convert them to datetime.datetime objects
+        try:    
+            start_period = datetime.datetime.strptime(start_period, TIME_FORMAT)
+            end_period = datetime.datetime.strptime(end_period, TIME_FORMAT)
+        except ValueError:
+            return {"error": "Invalid start_period or end_period in request"}, 400
+        
+        if start_period >= end_period:
+            return {"error": "start_period must be before end_period"}, 400
+
         booked_years: BookedYears = current_app.booking_manager.get_already_booked(
             slot_index,
-            datetime.datetime.strptime(start_period, TIME_FORMAT),
-            datetime.datetime.strptime(end_period, TIME_FORMAT)
+            start_period,
+            end_period
         )
 
         return jsonify({"bookings": booked_years})
@@ -58,11 +68,26 @@ class Book(Resource):
         if None in (start_period, end_period, name, phone_number):
             return {"error": "Missing start_period, end_period, name or phone_number in request"}, 400        
         
+        # Validate the data
+        if len(name) > 100:
+            return {"error": "Name is too long, only up to 100 characters allowed."}, 400
+        if len(phone_number) > 16:
+            return {"error": "Phone number is too long, only up to 16 characters allowed."}, 400
+
+        try:
+            start_period = datetime.datetime.strptime(start_period, TIME_FORMAT)
+            end_period = datetime.datetime.strptime(end_period, TIME_FORMAT)
+        except ValueError:
+            return {"error": "Invalid time format"}, 400
+        
+        if start_period >= end_period:
+            return {"error": "start_period must be before end_period"}, 400
+
         booking = Booking(
             name,
             phone_number,
-            datetime.datetime.strptime(start_period, TIME_FORMAT),
-            datetime.datetime.strptime(end_period, TIME_FORMAT)
+            start_period,
+            end_period,
         )
 
         success: bool = current_app.booking_manager.insert_booking(slot_index, booking)

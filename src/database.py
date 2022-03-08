@@ -2,13 +2,8 @@ import datetime
 import psycopg2
 from psycopg2.sql import SQL
 from typing import Tuple, NewType, List
-from os import getenv
 from .booking import Booking
-
-
-DATABASE_URL = getenv("DATABASE_URL")
-if DATABASE_URL is None:
-    raise Exception("DATABASE_URL not set")
+from .settings import DATABASE_URL
 
 
 Date = NewType("Date", int)
@@ -20,9 +15,13 @@ PhoneNumber = NewType("PhoneNumber", str)
 BookingRow = NewType("BookingRow", Tuple[Date, StartTime, EndTime, Slot, Name, PhoneNumber])
 
 
+def serialize_date(date: datetime.date) -> Date:
+    return date.year * 10000 + date.month * 100 + date.day
+
+
 def serialize_booking_times(booking: Booking) -> Tuple[Date, StartTime, EndTime]:
     return (
-        booking.time_start.date.year * 10000 + booking.time_start.date.month * 100 + booking.time_start.date.day,
+        serialize_date(booking.time_start.date()),
         booking.time_start.hour * 100 + booking.time_start.minute,
         booking.time_end.hour * 100 + booking.time_end.minute
     )
@@ -94,7 +93,7 @@ class Database:
     @classmethod
     def get_daily_bookings(cls, slot_id: int, date: datetime.date) -> List[Booking]:
         with cls.conn.cursor() as cur:
-            cur.execute(cls.SELECT_DAILY_BOOKINGS, (cls.serialize_date(date), slot_id))
+            cur.execute(cls.SELECT_DAILY_BOOKINGS, (serialize_date(date), slot_id))
             return [
                 row_to_booking(row)
                 for row in cur.fetchall()
